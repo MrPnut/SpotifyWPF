@@ -1,0 +1,24 @@
+﻿<Window x:Class="SpotifyWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:local="clr-namespace:SpotifyWPF.View"
+        xmlns:localVm="clr-namespace:SpotifyWPF.ViewModel"
+        mc:Ignorable="d"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Title="Spotify WPF" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type localVm:LoginPageViewModel}">
+            <local:LoginPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type localVm:PlaylistsViewModel}">
+            <local:PlaylistsPage/>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <ContentControl x:Name="Pages" Content="{Binding CurrentPage}"/>
+    </Grid>
+</Window>
