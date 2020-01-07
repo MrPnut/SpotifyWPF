@@ -21,3 +21,6 @@ for any asks I see that the official app doesn't support.
 Just run the [installer](https://github.com/MrPnut/SpotifyWPF/blob/master/SpotifyWPF/publish/setup.exe?raw=true).  It will complain
 because I don't have a proper signing certificate.
 
+# Running
+
+After installation, you can just search for "SpotifyWPF" in your start menu.
