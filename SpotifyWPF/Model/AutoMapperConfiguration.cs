@@ -7,8 +7,9 @@ namespace SpotifyWPF.Model
     {
         public static MapperConfiguration Configure()
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<PlaylistTrack, Track>();            
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PlaylistTrack, Track>();
             });
 
             config.AssertConfigurationIsValid();

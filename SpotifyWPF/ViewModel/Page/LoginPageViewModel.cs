@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using SpotifyWPF.Service;
 
-namespace SpotifyWPF.ViewModel
+namespace SpotifyWPF.ViewModel.Page
 {
     public class LoginPageViewModel : ViewModelBase
     {

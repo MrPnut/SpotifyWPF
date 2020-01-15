@@ -1,5 +1,5 @@
 ﻿namespace SpotifyWPF.Service.MessageBoxes
-{    
+{
     public enum MessageBoxButton
     {
         OK = 0,

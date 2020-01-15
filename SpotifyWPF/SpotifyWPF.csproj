@@ -121,6 +121,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\ArtistsToStringConverter.cs" />
+    <Compile Include="Converter\StringListToStringConverter.cs" />
+    <Compile Include="Converter\RadioButtonStringConverter.cs" />
     <Compile Include="Model\AutoMapperConfiguration.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Service\MessageBoxes.cs" />
@@ -128,17 +131,57 @@
     <Compile Include="Service\ISpotify.cs" />
     <Compile Include="Service\SettingsProvider.cs" />
     <Compile Include="Service\Spotify.cs" />
-    <Compile Include="ViewModel\LoginPageViewModel.cs" />
+    <Compile Include="ViewModel\Component\AlbumsDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Component\ArtistsDataGridViewModel.cs" />
+    <Compile Include="ViewModel\DataGridViewModelBase.cs" />
+    <Compile Include="ViewModel\Component\PlaylistsDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Page\SearchPageViewModel.cs" />
+    <Compile Include="ViewModel\Page\LoginPageViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Component\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\MessageType.cs" />
-    <Compile Include="ViewModel\PlaylistsViewModel.cs" />
+    <Compile Include="ViewModel\Page\PlaylistsPageViewModel.cs" />
+    <Compile Include="ViewModel\Component\TracksDataGridViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\LoginPage.xaml.cs">
+    <Compile Include="View\Component\AlbumsDataGrid.xaml.cs">
+      <DependentUpon>AlbumsDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Component\ArtistsDataGrid.xaml.cs">
+      <DependentUpon>ArtistsDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Extension\DataGridExtensions.cs" />
+    <Compile Include="View\Component\PlaylistsDataGrid.xaml.cs">
+      <DependentUpon>PlaylistsDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Page\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Page\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlaylistsPage.xaml.cs">
+    <Compile Include="View\Page\PlaylistsPage.xaml.cs">
       <DependentUpon>PlaylistsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Component\TracksDataGrid.xaml.cs">
+      <DependentUpon>TracksDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Extension\UIHelper.cs" />
+    <Page Include="View\Component\AlbumsDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Component\ArtistsDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Component\PlaylistsDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Page\SearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,11 +194,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\LoginPage.xaml">
+    <Page Include="View\Page\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PlaylistsPage.xaml">
+    <Page Include="View\Page\PlaylistsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Component\TracksDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,5 +253,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

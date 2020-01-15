@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SpotifyWPF.View.Component.PlaylistsDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewExtension="clr-namespace:SpotifyWPF.View.Extension"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <!--<WrapPanel DockPanel.Dock="Top">
+            <Label Content="1 of 2 result(s) shown"/>
+            <Button Content="Load All"/>
+        </WrapPanel>-->
+
+        <DataGrid DockPanel.Dock="Bottom"
+                  ItemsSource="{Binding Items}" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  HeadersVisibility="Column"
+                  AlternatingRowBackground="WhiteSmoke"
+                  viewExtension:DataGridExtensions.StartLoadingCommand="{Binding StartLoadingCommand}"
+                  viewExtension:DataGridExtensions.StopLoadingCommand="{Binding StopLoadingCommand}"
+                  viewExtension:DataGridExtensions.LoadMoreCommand="{Binding LoadMoreCommand}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Collaborative" Binding="{Binding Collaborative}"/>
+                <DataGridTextColumn Header="Public" Binding="{Binding Public}"/>
+                <DataGridTextColumn Header="Owner" Binding="{Binding Owner.DisplayName}"/>
+                <DataGridTextColumn Header="# Tracks" Binding="{Binding Tracks.Total}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

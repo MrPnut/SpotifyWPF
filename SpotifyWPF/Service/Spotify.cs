@@ -26,14 +26,14 @@ namespace SpotifyWPF.Service
         public void Login(Action onSucces)
         {
             var auth = new ImplicitGrantAuth(
-                _settingsProvider.SpotifyClientId, 
-                _settingsProvider.SpotifyRedirectUri, 
-                _settingsProvider.SpotifyRedirectUri, 
-                Scope.UserReadPrivate |                
-                Scope.PlaylistModifyPrivate | 
-                Scope.PlaylistModifyPublic | 
-                Scope.PlaylistReadCollaborative | 
-                Scope.PlaylistReadPrivate 
+                _settingsProvider.SpotifyClientId,
+                _settingsProvider.SpotifyRedirectUri,
+                _settingsProvider.SpotifyRedirectUri,
+                Scope.UserReadPrivate |
+                Scope.PlaylistModifyPrivate |
+                Scope.PlaylistModifyPublic |
+                Scope.PlaylistReadCollaborative |
+                Scope.PlaylistReadPrivate
             );
 
             auth.AuthReceived += (sender, payload) =>
@@ -54,7 +54,7 @@ namespace SpotifyWPF.Service
         }
 
         public async Task<PrivateProfile> GetPrivateProfileAsync()
-        {            
+        {
             if (_privateProfile != null)
             {
                 return _privateProfile;
@@ -69,6 +69,11 @@ namespace SpotifyWPF.Service
                     return null;
                 }
 
+                if (_privateProfile != null)
+                {
+                    return _privateProfile;
+                }
+
                 _privateProfile = await Api.GetPrivateProfileAsync();
 
                 return _privateProfile;
@@ -77,7 +82,7 @@ namespace SpotifyWPF.Service
             finally
             {
                 _semaphore.Release();
-            }                                                            
+            }
         }
     }
 }

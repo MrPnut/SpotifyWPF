@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="SpotifyWPF.View.Page.SearchPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpotifyWPF.View"
+             xmlns:component="clr-namespace:SpotifyWPF.View.Component"
+             mc:Ignorable="d" 
+             DataContext="{Binding Search, Source={StaticResource Locator}}"    
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <Label Content="{Binding Status}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch">
+                <ProgressBar IsIndeterminate="True" Height="10" Visibility="{Binding ProgressVisibility}"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <GroupBox DockPanel.Dock="Top" Header="Search Filters">
+            <WrapPanel>
+                <Label Content="Search keyword(s):"/>
+                <TextBox Text="{Binding SearchTerms, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,2,0" VerticalContentAlignment="Center" Width="200"/>
+                <Button Content="Search" Command="{Binding SearchCommand}"/>
+            </WrapPanel>
+        </GroupBox>
+
+        <Grid>
+            <TabControl SelectedIndex="{Binding SelectedTab}">
+                <TabItem Header="{Binding TracksResultsTitle}">
+                   <component:TracksDataGrid DataContext="{Binding TracksDataGridViewModel}"/>
+                </TabItem>
+
+                <TabItem Header="{Binding ArtistsResultsTitle}">
+                    <component:ArtistsDataGrid DataContext="{Binding ArtistsDataGridViewModel}"/>
+                </TabItem>
+
+                <TabItem Header="{Binding AlbumsResultsTitle}">
+                    <component:AlbumsDataGrid DataContext="{Binding AlbumsDataGridViewModel}"/>
+                </TabItem>
+
+                <TabItem Header="{Binding PlaylistsResultsTitle}">
+                    <component:PlaylistsDataGrid DataContext="{Binding PlaylistsDataGridViewModel}"/>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</UserControl>
