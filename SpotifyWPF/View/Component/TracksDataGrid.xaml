@@ -18,7 +18,8 @@
             <Button Content="Load All"/>
         </WrapPanel>-->
 
-        <DataGrid ItemsSource="{Binding Items}" 
+        <DataGrid x:Name="TrackDataGridName"
+                  ItemsSource="{Binding Items}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   CanUserAddRows="False"
@@ -27,9 +28,8 @@
                   AlternatingRowBackground="WhiteSmoke"
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto"
-                  extension:DataGridExtensions.StartLoadingCommand="{Binding StartLoadingCommand}"
-                  extension:DataGridExtensions.StopLoadingCommand="{Binding StopLoadingCommand}"
-                  extension:DataGridExtensions.LoadMoreCommand="{Binding LoadMoreCommand}">
+                  extension:DataGridExtensions.VisibleChangedCommand="{Binding UpdateVisibilityCommand}"
+                  extension:DataGridExtensions.ScrollChangedCommand="{Binding UpdateScrollCommand}">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>

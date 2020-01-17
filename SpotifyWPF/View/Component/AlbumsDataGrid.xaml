@@ -26,9 +26,9 @@
                   CanUserDeleteRows="False"
                   HeadersVisibility="Column"
                   AlternatingRowBackground="WhiteSmoke"
-                  viewExtension:DataGridExtensions.StartLoadingCommand="{Binding StartLoadingCommand}"
-                  viewExtension:DataGridExtensions.StopLoadingCommand="{Binding StopLoadingCommand}"
-                  viewExtension:DataGridExtensions.LoadMoreCommand="{Binding LoadMoreCommand}">
+                  Visibility="{Binding IsVisible}"
+                  viewExtension:DataGridExtensions.VisibleChangedCommand="{Binding UpdateVisibilityCommand}"
+                  viewExtension:DataGridExtensions.ScrollChangedCommand="{Binding UpdateScrollCommand}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Artist(s)" Binding="{Binding Artists, Converter={StaticResource ArtistsToStringConverter}}"/>

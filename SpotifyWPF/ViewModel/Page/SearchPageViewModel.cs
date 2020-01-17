@@ -179,7 +179,7 @@ namespace SpotifyWPF.ViewModel.Page
             await AlbumsDataGridViewModel.InitializeAsync(SearchTerms, searchItem.Albums);
             await PlaylistsDataGridViewModel.InitializeAsync(SearchTerms, searchItem.Playlists);
 
-            await _tabs[SelectedTab].LoadUntilScrollable();
+            await _tabs[SelectedTab].MaybeLoadUntilScrollable();
 
             await Application.Current.Dispatcher.BeginInvoke((Action) (() =>
             {

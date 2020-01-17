@@ -28,9 +28,8 @@
                   AlternatingRowBackground="WhiteSmoke"
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto"
-                  viewExtension:DataGridExtensions.StartLoadingCommand="{Binding StartLoadingCommand}"
-                  viewExtension:DataGridExtensions.StopLoadingCommand="{Binding StopLoadingCommand}"
-                  viewExtension:DataGridExtensions.LoadMoreCommand="{Binding LoadMoreCommand}">
+                  viewExtension:DataGridExtensions.VisibleChangedCommand="{Binding UpdateVisibilityCommand}"
+                  viewExtension:DataGridExtensions.ScrollChangedCommand="{Binding UpdateScrollCommand}">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />

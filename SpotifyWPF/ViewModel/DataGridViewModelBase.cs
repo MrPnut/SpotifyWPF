@@ -1,67 +1,48 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Nito.AsyncEx;
 using SpotifyAPI.Web.Models;
+using SpotifyWPF.View.Extension;
 
 namespace SpotifyWPF.ViewModel
 {
-    /// <summary>
-    ///     Marker interface to be able to add to collections
-    /// </summary>
-    public interface IDataGridViewModel
-    {
-        Task LoadUntilScrollable();
-
-        bool Loading { get; }
-    }
-
     public abstract class DataGridViewModelBase<T> : ViewModelBase, IDataGridViewModel
     {
+        private readonly AsyncLock _mutex = new AsyncLock();
+
         /// <summary>
-        ///     If we're in the middle of a long running load operation, allow it to be canceled
+        ///     True if we're completed an initial load (MaybeLoadUntilScrollable)
         /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
+        private volatile bool _loadedInitially;
 
         /// <summary>
         ///     If we're currently loading the DataGrid
         /// </summary>
-        private bool _loading;
-
-        /// <summary>
-        /// True if we're completed an initial load (LoadUntilScrollable)
-        /// </summary>
-        private bool _loadedInitially;
+        private volatile bool _loading;
 
         protected DataGridViewModelBase()
         {
-            LoadMoreCommand = new RelayCommand(async () =>
+            UpdateVisibilityCommand = new RelayCommand<bool>(async isVisible =>
             {
-                if (_loading) return;
+                // If we're visible try to load if we can
+                if (isVisible) await MaybeLoadUntilScrollable();
 
-                Loading = true;
-                await FetchAndLoadPageAsync();
-                await Application.Current.Dispatcher.BeginInvoke((Action) (() => { Loading = false; }));
+                // Else stop loading if we're during the initial load
+                else if (!_loadedInitially) _loadedInitially = true;
             });
 
-            StopLoadingCommand = new RelayCommand(StopLoading);
-            StartLoadingCommand = new RelayCommand(async () => await LoadUntilScrollable());
-        }
-
-        public bool Loading
-        {
-            get => _loading;
-
-            set
+            UpdateScrollCommand = new RelayCommand<ScrollInfo>(async scrollInfo =>
             {
-                _loading = value;
-                RaisePropertyChanged();
-            }
+                // If we haven't loaded the first set yet and we can scroll, then stop loading
+                if (!_loadedInitially && scrollInfo.IsScrollable) _loadedInitially = true;
+                
+                // Otherwise load the next page
+                else if (_loadedInitially && scrollInfo.ScrollPercentage >= 0.85) await FetchAndLoadPageAsync();
+            });
         }
 
         /// <summary>
@@ -75,83 +56,73 @@ namespace SpotifyWPF.ViewModel
         public ObservableCollection<T> Items { get; } = new ObservableCollection<T>();
 
         /// <summary>
-        /// Command that can be executed to start loading until the scrollbar is visible
+        ///     Command to execute when our visibility is updated
         /// </summary>
-        public RelayCommand StartLoadingCommand { get; }
+        public RelayCommand<bool> UpdateVisibilityCommand { get; }
 
         /// <summary>
-        ///     Command that can be executed to stop loading
+        ///     Command to execute when our ScrollInfo is updated
         /// </summary>
-        public RelayCommand StopLoadingCommand { get; }
-
-        /// <summary>
-        ///     Command that can be executed to load another page
-        /// </summary>
-        public RelayCommand LoadMoreCommand { get; }
+        public RelayCommand<ScrollInfo> UpdateScrollCommand { get; }
 
         /// <summary>
         ///     The total items in the results set (includes not fetched/displayed)
         /// </summary>
         public int Total { get; private set; }
 
+        public bool Loading
+        {
+            get => _loading;
+
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
-        ///     Start loading the DataGrid until the scrollbars show up (if there are enough results)
-        ///     StopLoading will be triggered by the display of the scroll bar
+        ///    Try to do an initial load if we need to (until the scrollbar show up).
+        ///    If the scrollbar is shown, this method exits.  It can also only run once from the time
+        ///    the viewmodel is initialized (if a query is present)
         /// </summary>
         /// <returns></returns>
-        public async Task LoadUntilScrollable()
+        public async Task MaybeLoadUntilScrollable()
         {
-            if (_loading) return;
+            if (string.IsNullOrWhiteSpace(Query)) return;
 
-            Loading = true;
-
-            if (_loadedInitially || Items.Count >= Total || string.IsNullOrWhiteSpace(Query))
+            await Task.Run(async () =>
             {
-                Loading = false;
-
-                return;
-            }
-
-            using (_cancellationTokenSource = new CancellationTokenSource())
-            {
-                var token = _cancellationTokenSource.Token;
-
-                await Task.Run(async () =>
+                while (!_loadedInitially)
                 {
-                    while (!token.IsCancellationRequested)
-                    {
-                        if (Items.Count >= Total) break;
+                    if (Items.Count >= Total) break;
 
-                        await FetchAndLoadPageAsync();
-                    }
-                }, token);
-            }
-
-            await Application.Current.Dispatcher.BeginInvoke((Action) (() =>
-            {
-                Loading = false;
-            }));
+                    await FetchAndLoadPageAsync();
+                }
+            });
 
             _loadedInitially = true;
         }
 
         /// <summary>
-        ///     Reinitialize with a starting page and query to be able to retrieve more
+        ///     Reinitialize with a starting page and query to be able to retrieve more.
+        ///     Locked because it could be called multiple times from visibility commands
         /// </summary>
         /// <param name="query"></param>
         /// <param name="paging"></param>
         /// <returns></returns>
         public async Task InitializeAsync(string query, Paging<T> paging)
         {
-            StopLoading();
+            using (await _mutex.LockAsync())
+            {
+                Loading = false;
+                _loadedInitially = false;
+                Items.Clear();
+                Query = query;
+                Total = 0;
 
-            Items.Clear();
-            Query = query;
-            Total = 0;
-            Loading = false;
-            _loadedInitially = false;
-
-            await LoadPageAsync(paging);
+                await LoadPageAsync(paging);
+            }
         }
 
         /// <summary>
@@ -161,7 +132,8 @@ namespace SpotifyWPF.ViewModel
         /// <returns></returns>
         private async Task LoadPageAsync(Paging<T> paging)
         {
-            await Application.Current.Dispatcher.BeginInvoke((Action) (() =>
+            // ReSharper disable once PossibleNullReferenceException
+            await Application.Current.Dispatcher?.BeginInvoke((Action) (() =>
             {
                 foreach (var item in paging.Items) Items.Add(item);
 
@@ -173,35 +145,21 @@ namespace SpotifyWPF.ViewModel
 
         /// <summary>
         ///     Fetches the next page from a subclass and loads it into the DataGrid
+        ///     Locked because it can be invoked from multiple UI commands
         /// </summary>
         /// <returns></returns>
         private async Task FetchAndLoadPageAsync()
         {
-            if (Items.Count >= Total) return;
-
-            var page = await FetchPageInternalAsync();
-            await LoadPageAsync(page);
-        }
-
-        /// <summary>
-        ///     This can be called by the user or when the grid goes out of view.  We stop
-        ///     loading when the grid goes out of view because we use the scrollbar visibility
-        ///     to determine if we can stop loading or not.  This is so the user has a scrollbar to scroll
-        ///     down, which triggers loading of next pages
-        /// </summary>
-        private void StopLoading()
-        {
-            if (!_loading) return;
-
-            Loading = false;
-
-            try
+            using (await _mutex.LockAsync())
             {
-                _cancellationTokenSource?.Cancel();
-            }
-            catch (ObjectDisposedException)
-            {
-                Debug.WriteLine($"{GetType()} -> StopLoading(): CancellationTokenSource disposed");
+                Loading = true;
+
+                if (Items.Count >= Total) return;
+
+                var page = await FetchPageInternalAsync();
+                await LoadPageAsync(page);
+
+                Loading = false;
             }
         }
 
@@ -215,5 +173,11 @@ namespace SpotifyWPF.ViewModel
         ///     When a new page has been loaded
         /// </summary>
         public event EventHandler PageLoaded;
+    }
+
+    public interface IDataGridViewModel
+    {
+        bool Loading { get; }
+        Task MaybeLoadUntilScrollable();
     }
 }
