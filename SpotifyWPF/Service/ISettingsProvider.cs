@@ -4,6 +4,6 @@
     {
         string SpotifyClientId { get; }
 
-        string SpotifyRedirectUri { get; }
+        string SpotifyRedirectPort { get; }
     }
 }

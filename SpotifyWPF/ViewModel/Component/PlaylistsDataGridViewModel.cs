@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using SpotifyAPI.Web.Enums;
-using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web;
 using SpotifyWPF.Service;
 
 namespace SpotifyWPF.ViewModel.Component
@@ -14,9 +13,15 @@ namespace SpotifyWPF.ViewModel.Component
             _spotify = spotify;
         }
 
-        private protected override async Task<Paging<SimplePlaylist>> FetchPageInternalAsync()
+        private protected override async Task<Paging<SimplePlaylist, SearchResponse>> FetchPageInternalAsync()
         {
-            var resp = await _spotify.Api.SearchItemsAsync(Query, SearchType.Playlist, 20, Items.Count);
+            var req = new SearchRequest(SearchRequest.Types.Playlist, Query)
+            {
+                Limit = 20,
+                Offset = Items.Count
+            };
+
+            var resp = await _spotify.Api.Search.Item(req);
 
             return resp.Playlists;
         }

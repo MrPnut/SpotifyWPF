@@ -1,8 +1,7 @@
 ﻿using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web.Enums;
-using SpotifyAPI.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,46 +13,60 @@ namespace SpotifyWPF.Service
 
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-        private PrivateProfile _privateProfile;
+        private readonly EmbedIOAuthServer _server;
 
-        public SpotifyWebAPI Api { get; private set; }
+        private PrivateUser _privateProfile;
+
+        private Action _loginSuccessAction;
+
+        public ISpotifyClient Api { get; private set; }
 
         public Spotify(ISettingsProvider settingsProvider)
         {
             _settingsProvider = settingsProvider;
+
+            _server = new EmbedIOAuthServer(
+                new Uri($"http://localhost:{_settingsProvider.SpotifyRedirectPort}"),
+                int.Parse(_settingsProvider.SpotifyRedirectPort));
+
+            _server.ImplictGrantReceived += OnImplicitGrantReceived;
+            _server.ErrorReceived += OnErrorReceived;
         }
 
-        public void Login(Action onSucces)
+        public async Task LoginAsync(Action onSuccess)
         {
-            var auth = new ImplicitGrantAuth(
-                _settingsProvider.SpotifyClientId,
-                _settingsProvider.SpotifyRedirectUri,
-                _settingsProvider.SpotifyRedirectUri,
-                Scope.UserReadPrivate |
-                Scope.PlaylistModifyPrivate |
-                Scope.PlaylistModifyPublic |
-                Scope.PlaylistReadCollaborative |
-                Scope.PlaylistReadPrivate
-            );
+            await _server.Start();
 
-            auth.AuthReceived += (sender, payload) =>
+            _loginSuccessAction = onSuccess;
+
+            var request = new LoginRequest(_server.BaseUri, _settingsProvider.SpotifyClientId,
+                LoginRequest.ResponseType.Token)
             {
-                auth.Stop();
-
-                Api = new SpotifyWebAPI()
+                Scope = new List<string>
                 {
-                    TokenType = payload.TokenType,
-                    AccessToken = payload.AccessToken
-                };
-
-                onSucces.Invoke();
+                    Scopes.UserReadPrivate, Scopes.PlaylistModifyPrivate, Scopes.PlaylistModifyPublic,
+                    Scopes.PlaylistReadCollaborative, Scopes.PlaylistReadPrivate
+                }
             };
-
-            auth.Start();
-            auth.OpenBrowser();
+             
+            BrowserUtil.Open(request.ToUri());
         }
 
-        public async Task<PrivateProfile> GetPrivateProfileAsync()
+        private async Task OnErrorReceived(object sender, string error, string state)
+        {
+            await _server.Stop();
+        }
+
+        private async Task OnImplicitGrantReceived(object arg1, ImplictGrantResponse arg2)
+        {
+            await _server.Stop();
+
+            Api = new SpotifyClient(arg2.AccessToken);
+            
+            _loginSuccessAction?.Invoke();
+        }
+
+        public async Task<PrivateUser> GetPrivateProfileAsync()
         {
             if (_privateProfile != null)
             {
@@ -74,7 +87,7 @@ namespace SpotifyWPF.Service
                     return _privateProfile;
                 }
 
-                _privateProfile = await Api.GetPrivateProfileAsync();
+                _privateProfile = await Api.UserProfile.Current();
 
                 return _privateProfile;
             }

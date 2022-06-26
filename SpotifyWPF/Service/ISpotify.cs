@@ -1,5 +1,4 @@
 ﻿using SpotifyAPI.Web;
-using SpotifyAPI.Web.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -7,10 +6,10 @@ namespace SpotifyWPF.Service
 {
     public interface ISpotify
     {
-        void Login(Action onSuccess);
+        Task LoginAsync(Action onSuccess);
 
-        Task<PrivateProfile> GetPrivateProfileAsync();
+        Task<PrivateUser> GetPrivateProfileAsync();
 
-        SpotifyWebAPI Api { get; }
+        ISpotifyClient Api { get; }
     }
 }
