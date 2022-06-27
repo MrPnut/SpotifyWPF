@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using Nito.AsyncEx;
 using SpotifyAPI.Web.Models;
 using SpotifyWPF.View.Extension;
+// ReSharper disable AsyncVoidLambda
 
 namespace SpotifyWPF.ViewModel
 {

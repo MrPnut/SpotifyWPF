@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="SpotifyWPF.exe" version="1.0.0.1" publicKeyToken="f8494b81a637fe4e" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="SpotifyWPF.exe" version="1.0.0.1" publicKeyToken="c781a7c8da1be551" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -103,14 +103,110 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="675752">
-      <assemblyIdentity name="Newtonsoft.Json" version="12.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="701992">
+      <assemblyIdentity name="Newtonsoft.Json" version="13.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NZjMytW1Nf6m+TZiEHpBg7/WFnvx0PgCYENgk+3C468=</dsig:DigestValue>
+        <dsig:DigestValue>tiSUnfiw46YVP9+3MKfG9JkLZZLuDZIuF4hDPSdmEPM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.AsyncEx.Context.dll" size="12800">
+      <assemblyIdentity name="Nito.AsyncEx.Context" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>B1Onk1wpTNnX5hyY53ERZcJxJCOv0uhDaOi/Odqg91U=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.AsyncEx.Coordination.dll" size="39424">
+      <assemblyIdentity name="Nito.AsyncEx.Coordination" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>U0wQOhlsOHq4DbhIWGG3lHZIApjqWjCL0t30xxVzdeo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.AsyncEx.Interop.WaitHandles.dll" size="7680">
+      <assemblyIdentity name="Nito.AsyncEx.Interop.WaitHandles" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>JR8rtpUulkOAE+CAX0ZUpiN+XMy82SPnIQUm6q+x5dg=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.AsyncEx.Oop.dll" size="5632">
+      <assemblyIdentity name="Nito.AsyncEx.Oop" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>x2sd8SPwSbICT7ULgaNrWwtlAkHPxz6PIn5kaWpIk80=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.AsyncEx.Tasks.dll" size="32768">
+      <assemblyIdentity name="Nito.AsyncEx.Tasks" version="5.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>QOHKgbatk4D8536oUooannHHBETagmJGgwGmYcmuR34=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.Cancellation.dll" size="7168">
+      <assemblyIdentity name="Nito.Cancellation" version="1.0.5.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>zgBK5AwwMDTaBSX7IRQAzuwtWzRnP73piwDuhZ5ijvs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.Collections.Deque.dll" size="15360">
+      <assemblyIdentity name="Nito.Collections.Deque" version="1.0.4.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>n73WjjEpaYpPqMkMp7vJz5aejjGHD9uPnvZKp6F9LoY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Nito.Disposables.dll" size="7680">
+      <assemblyIdentity name="Nito.Disposables" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>nRoTyEpsTNxbC5y37e7SFn+W9CKUDwUU1cQWiSnt58I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -139,14 +235,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SpotifyWPF.exe" size="82864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SpotifyWPF.exe" size="118704">
       <assemblyIdentity name="SpotifyWPF" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9ogHvPrwu9Bju011f3uwgtkbHBGP3Wubc4/DEPimhdU=</dsig:DigestValue>
+        <dsig:DigestValue>HYybJmR8KaiJg9HuIkHPROR/VCwOZiYez0GQKBc4zt8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Collections.Immutable.dll" size="180624">
+      <assemblyIdentity name="System.Collections.Immutable" version="1.2.2.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>pBGj46rHXTIR2KWIELX+EzKenQvmLMYsYfsbM1HhH70=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.ValueTuple.dll" size="25232">
+      <assemblyIdentity name="System.ValueTuple" version="4.0.3.0" publicKeyToken="CC7B13FFCD2DDD51" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>6QXRAlhbIsbfBPIZr1y9v6e8Fll56XiLYt9tzBZeEPQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -195,13 +315,13 @@
       <dsig:DigestValue>1AJZlD2xjJ+XKP3GlCozJIBUKCGTgN/UP9Ypb+m5rug=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="SpotifyWPF.exe.config" size="1411">
+  <file name="SpotifyWPF.exe.config" size="1651">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>YWX2C2lUJZKcplfqdxfJkMxXOQchKwDo4UF1qmU9I5o=</dsig:DigestValue>
+      <dsig:DigestValue>dmyoGKhFFkhGA02qamboT+GEpKXTdYC16vN16Yq5cxk=</dsig:DigestValue>
     </hash>
   </file>
-<publisherIdentity name="CN=SYSTEM-N\Nick" issuerKeyHash="5408ad9d5b07f17677c4f769eb72b5920216116c" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>kWVNngCdeYmVuxqXUcxTxBqwyNXlAL+88rL112O5UGw=</DigestValue></Reference></SignedInfo><SignatureValue>Fa5IjGxhsdOR+/u3pysCu0bM20bbsbhvoKsGNGOjcBbQ5qIMLIv6w0Mg9bxFFVOpIUjaA+qyGoQxRJvOgdrrbLz6hAYvPV/jrkhwJtGZ4uhTR0RB0xBab0XMS0782LxYWi5Cku28GfDErJtDBhh38v1NFT13wjhSNcwK0KHLn7c=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>2ElWE1iDVYz1kevNqgxuvaE96rmUUd/nFsZyEhgDHTP7A9wlkTwig2/mDDYtGJ+gvtWTU8a1JoSZIqaG/onn+SY+F9lnKOgYg39j1cdFDdNXcm+maRSSkABYEUv1eLhmfvxRbkuVM9yQvKbtVLbPok5J1Chjc4aAIQSyPngeskk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="6c50b963d7f5b2f2bcbf00e5d5c8b01ac453cc51971abb9589799d009e4d6591" Description="" Url=""><as:assemblyIdentity name="SpotifyWPF.exe" version="1.0.0.1" publicKeyToken="f8494b81a637fe4e" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=SYSTEM-N\Nick</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>62AXIjCwJ+nba+Yl5EgONU9RLpGvORMiZCGxTVj58ss=</DigestValue></Reference></SignedInfo><SignatureValue>AzgGIlvotGPbPl+G3Jo3y/z3iVgEJEm3gw7YjlgC4kO0lsaWjt1zVbSOA5F71y48dvFeNiJH2sZIMkC2SynyU0DWLjaXW+23q4qw7wFeKpADJfb1XykebhV8t1exZnGRmpUZBxrrbf7f8jicW6+ybPOv8/+PYY1YGK5gjkOV0cE=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>2ElWE1iDVYz1kevNqgxuvaE96rmUUd/nFsZyEhgDHTP7A9wlkTwig2/mDDYtGJ+gvtWTU8a1JoSZIqaG/onn+SY+F9lnKOgYg39j1cdFDdNXcm+maRSSkABYEUv1eLhmfvxRbkuVM9yQvKbtVLbPok5J1Chjc4aAIQSyPngeskk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIBzTCCATagAwIBAgIQHKULXP4BlqhJHjqaMnPfGTANBgkqhkiG9w0BAQsFADAlMSMwIQYDVQQDHhoAUwBZAFMAVABFAE0ALQBOAFwATgBpAGMAazAeFw0yMDAxMDcwMDQwMzVaFw0yMTAxMDYwNjQwMzVaMCUxIzAhBgNVBAMeGgBTAFkAUwBUAEUATQAtAE4AXABOAGkAYwBrMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYSVYTWINVjPWR682qDG69oT3quZRR3+cWxnISGAMdM/sD3CWRPCKDb+YMNi0Yn6C+1ZNTxrUmhJkipob+ief5Jj4X2Wco6BiDf2PVx0UN01dyb6ZpFJKQAFgRS/V4uGZ+/FFuS5Uz3JC8pu1Uts+iTknUKGNzhoAhBLI+eB6ySQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAEN7Ic0fkcZDCA4bMhhW3FRXd1sixWh2/ohW70ZDEkjuq3zmlKHL6yxgNA/+IQiUkoQ35XBspiTgZN3ujjFIDREKDN4s0YtIE3p9Lo+aHBC2l5KMnrjTVDJwdrSEcYEMzjtH05uOQ0SD7PwkiRq59OcjqoXI7XrMyhs/+EU8sRPE</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
+<publisherIdentity name="CN=SYSTEM-N\Nick" issuerKeyHash="ff62c656dcc08fd919e93f740c766aafde2f7acf" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>/y8N1MlsY8dD78u7BGYskvHPfgBj3WZ8ffhkZ/N1FOk=</DigestValue></Reference></SignedInfo><SignatureValue>WYY23BnC7lxi+3EPokIpRUknX92nz7z/6wzfhsLFZFod1zW8f+OOGt27LUvLyYyS43rNYY1LaGOzpEfFgjohao0CpK9MWkBV/rEzitpJ2LXGAbHUB+QBGu+jT6R2u0MD3QUfOK0wqrwqbV/VP3SM9v65K7qc0mJ1/kUKaFhMmvo=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>2egdgIHxfQav6ATkzRKbEquyF79BIgSm0ZE+ddkUzNH25NW1WyYYT+KbzZfzOHjkWaR/V6T7Iuwrj1YrYCNRITFBHudcN0TgG5v2KvIbbwvu3zKNnoDOKSQxqBtLEy4N+55T/Kf0gREC1L8JlgV65UhRzTsWKVTPTJglMfFxQek=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="e91475f36764f87d7c66dd63007ecff1922c6604bbcbef43c7636cc9d40d2fff" Description="" Url=""><as:assemblyIdentity name="SpotifyWPF.exe" version="1.0.0.1" publicKeyToken="c781a7c8da1be551" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=SYSTEM-N\Nick</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>hA75OXIqkaOL9f5TwdW5fJ/kBKfPIiiFEkSf5bUFF/s=</DigestValue></Reference></SignedInfo><SignatureValue>wBBXBs4se2JBZAZtR7Q+WraqK1lpCxZCm/yHRouyjLiDIl/vHMRxZfvJf04hqacDZ0XOWr0Fy4L4LQ3D8AQfmLX+PuGuc5QNkvm/Z+7+FjkaTZmKuENEZ+feROk4KqL9bcK8D6w9SeVx4mjvgqGYt8+55TlwP96HauZb7kiWXtg=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>2egdgIHxfQav6ATkzRKbEquyF79BIgSm0ZE+ddkUzNH25NW1WyYYT+KbzZfzOHjkWaR/V6T7Iuwrj1YrYCNRITFBHudcN0TgG5v2KvIbbwvu3zKNnoDOKSQxqBtLEy4N+55T/Kf0gREC1L8JlgV65UhRzTsWKVTPTJglMfFxQek=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIBzTCCATagAwIBAgIQIVhdXKcewoBDtms/6fAPNTANBgkqhkiG9w0BAQsFADAlMSMwIQYDVQQDHhoAUwBZAFMAVABFAE0ALQBOAFwATgBpAGMAazAeFw0yMjA2MjYwNTA3MDhaFw0yMzA2MjYxMTA3MDhaMCUxIzAhBgNVBAMeGgBTAFkAUwBUAEUATQAtAE4AXABOAGkAYwBrMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZ6B2AgfF9Bq/oBOTNEpsSq7IXv0EiBKbRkT512RTM0fbk1bVbJhhP4pvNl/M4eORZpH9XpPsi7CuPVitgI1EhMUEe51w3ROAbm/Yq8htvC+7fMo2egM4pJDGoG0sTLg37nlP8p/SBEQLUvwmWBXrlSFHNOxYpVM9MmCUx8XFB6QIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAGUe90FprBLGq+jXp3j9lZyD6Hd3YCYr4zciNURTnDxpGCQFbWw3ri110LLOFiz21KQgl0mFjJriR3EkI0/p+XpxqJ+DcMhnzgWYW84HcL33Tu5mmACb1TUTxvVa85aPvj0tX23bBLcXX4CFRCVzDD21YaircgLaIFfz5AzMphxj</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

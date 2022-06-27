@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using SpotifyWPF.Service.MessageBoxes;
 using SpotifyWPF.ViewModel.Component;
 using SpotifyWPF.ViewModel.Page;
+using MessageBoxButton = SpotifyWPF.Service.MessageBoxes.MessageBoxButton;
 
 namespace SpotifyWPF.ViewModel
 {
@@ -13,15 +15,22 @@ namespace SpotifyWPF.ViewModel
     {
         private readonly SearchPageViewModel _searchPageViewModel;
         private readonly PlaylistsPageViewModel _playlistsPageViewModel;
+        private readonly LoginPageViewModel _loginPageViewModel;
+
+        private readonly IMessageBoxService _messageBoxService;
 
         private ViewModelBase _currentPage;
 
         public MainViewModel(LoginPageViewModel loginPageViewModel,
             PlaylistsPageViewModel playlistsPageViewModel,
-            SearchPageViewModel searchPageViewModel)
+            SearchPageViewModel searchPageViewModel,
+            IMessageBoxService messageBoxService)
         {
             _playlistsPageViewModel = playlistsPageViewModel;
             _searchPageViewModel = searchPageViewModel;
+            _loginPageViewModel = loginPageViewModel;
+
+            _messageBoxService = messageBoxService;
 
             CurrentPage = loginPageViewModel;
 
@@ -33,6 +42,7 @@ namespace SpotifyWPF.ViewModel
                 {
                     MenuItems = new ObservableCollection<MenuItemViewModel>
                     {
+                        new MenuItemViewModel("Log Out", new RelayCommand(Logout)),
                         new MenuItemViewModel("Exit", new RelayCommand(Exit))
                     }
                 },
@@ -41,9 +51,9 @@ namespace SpotifyWPF.ViewModel
                     MenuItems = new ObservableCollection<MenuItemViewModel>
                     {
                         new MenuItemViewModel("Search",
-                            new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)) {IsChecked = true},
-                        new MenuItemViewModel("Playlists",
                             new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)),
+                        new MenuItemViewModel("Playlists",
+                            new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)) {IsChecked = true},
                     }
                 }
             };
@@ -64,7 +74,7 @@ namespace SpotifyWPF.ViewModel
 
         private void LoginSuccessful(object o)
         {
-            CurrentPage = _searchPageViewModel;
+            CurrentPage = _playlistsPageViewModel;
         }
 
         private void SwitchViewFromMenuItem(MenuItemViewModel menuItem)
@@ -85,6 +95,15 @@ namespace SpotifyWPF.ViewModel
                 .MenuItems.ToList().ForEach(item => item.IsChecked = false);
 
             menuItem.IsChecked = true;
+        }
+
+        private void Logout()
+        {
+            _messageBoxService.ShowMessageBox(
+                "SpotifyWPF will log itself out of Spotify.  Close your browser and/or delete cookies, or you will instantly log back in.", 
+                "Log Out", MessageBoxButton.OK, MessageBoxIcon.Asterisk);
+
+            CurrentPage = _loginPageViewModel;
         }
 
         private static void Exit()
