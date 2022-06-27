@@ -59,7 +59,7 @@
     <ManifestCertificateThumbprint>D7D9494E13DD1DF691C362BB6838BDFBFAF0ACD0</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SpotifyWPF_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SpotifyWPF_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
