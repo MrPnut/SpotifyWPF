@@ -42,7 +42,6 @@ namespace SpotifyWPF.ViewModel
                 {
                     MenuItems = new ObservableCollection<MenuItemViewModel>
                     {
-                        new MenuItemViewModel("Log Out", new RelayCommand(Logout)),
                         new MenuItemViewModel("Exit", new RelayCommand(Exit))
                     }
                 },
@@ -95,15 +94,6 @@ namespace SpotifyWPF.ViewModel
                 .MenuItems.ToList().ForEach(item => item.IsChecked = false);
 
             menuItem.IsChecked = true;
-        }
-
-        private void Logout()
-        {
-            _messageBoxService.ShowMessageBox(
-                "SpotifyWPF will log itself out of Spotify.  Close your browser and/or delete cookies, or you will instantly log back in.", 
-                "Log Out", MessageBoxButton.OK, MessageBoxIcon.Asterisk);
-
-            CurrentPage = _loginPageViewModel;
         }
 
         private static void Exit()
