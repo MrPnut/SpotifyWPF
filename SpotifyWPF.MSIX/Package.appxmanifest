@@ -9,7 +9,7 @@
   <Identity
     Name="bcecf26b-0c26-40c2-a845-1230c500e1ee"
     Publisher="CN=ncsoftworks.com"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>SpotifyWPF</DisplayName>

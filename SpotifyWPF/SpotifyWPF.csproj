@@ -56,10 +56,10 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>15E886B23F3B069189FDCAC85D91D21168F80A29</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7621246606EB8B1EAA2A2E85599A53D689BC1B95</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SpotifyWPF_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SpotifyWPF.MSIX_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -260,6 +260,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="SpotifyWPF.MSIX_TemporaryKey.pfx" />
     <None Include="SpotifyWPF_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
