@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+	Uri="https://github.com/MrPnut/SpotifyWPF/blob/master/SpotifyWPF.MSIX/AppPackages/SpotifyWPF.MSIX.appinstaller"
+	Version="1.0.1.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	<MainBundle
+		Name="bcecf26b-0c26-40c2-a845-1230c500e1ee"
+		Version="1.0.1.0"
+		Publisher="CN=ncsoftworks.com"
+		Uri="https://github.com/MrPnut/SpotifyWPF/blob/master/SpotifyWPF.MSIX/AppPackages/SpotifyWPF.MSIX_1.0.1.0_Test/SpotifyWPF.MSIX_1.0.1.0_AnyCPU.appxbundle" />
+	<UpdateSettings>
+		<OnLaunch
+			HoursBetweenUpdateChecks="0" />
+	</UpdateSettings>
+</AppInstaller>
