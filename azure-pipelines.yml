@@ -25,6 +25,12 @@ steps:
     $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
   displayName: 'Version Package Manifest'
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+
 - task: MSBuild@1
   inputs:
     solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
