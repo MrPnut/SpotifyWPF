@@ -28,6 +28,7 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
+    restoreNugetPackages: true
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
     msbuildArguments: '/p:OutputPath=NonPackagedApp
