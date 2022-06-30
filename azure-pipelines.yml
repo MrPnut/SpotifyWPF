@@ -13,21 +13,24 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  major: 1
+  minor: 0
+  build: 0
+  revision: $[counter('rev', 0)]
 
 steps:
-- task: NuGetToolInstaller@1
+- powershell: |   
+    [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
+    $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
+    $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
+  displayName: 'Version Package Manifest'
 
-- task: NuGetCommand@2
+- task: MSBuild@1
   inputs:
-    restoreSolution: '$(solution)'
+    solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
+    platform: $(buildPlatform)
+    configuration: $(buildConfiguration)     
+    msbuildArguments: '/p:OutputPath=NonPackagedApp
+     /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=false'
+  displayName: 'Package the App'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
