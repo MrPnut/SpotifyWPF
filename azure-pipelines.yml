@@ -54,8 +54,7 @@ steps:
     restoreNugetPackages: true
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)"
-                  /p:OutputPath=NonPackagedApp
+    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)"                  
                   /p:AppxBundle=Never 
                   /p:UapAppxPackageBuildMode=SideLoadOnly 
                   /p:AppxPackageSigningEnabled=true
