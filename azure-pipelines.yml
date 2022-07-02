@@ -59,7 +59,8 @@ steps:
                   p:UapAppxPackageBuildMode=SideLoadOnly 
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+                  /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'                  
   displayName: 'Package the App'
 
 - task: PublishBuildArtifacts@1
