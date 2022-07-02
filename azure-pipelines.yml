@@ -34,8 +34,7 @@ steps:
     $doc.Root.Attribute("Version").Value = $version;
     $doc.Root.Attribute("Uri").Value = $publishUrl;
     $xName =
-      [System.Xml.Linq.XName]
-        "{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage"
+      [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2017/2}MainBundle");
     $doc.Root.Element($xName).Attribute("Version").Value = $version;
     $doc.Save("$(Build.ArtifactStagingDirectory)/SpotifyWPF.appinstaller")
   displayName: 'Prepare .appinstaller'
