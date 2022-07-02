@@ -17,14 +17,28 @@ variables:
   minor: 0
   build: 0
   revision: $[counter('rev', 0)]
+  publishUrl: 'https://github.com/MrPnut/SpotifyWPF/blob/master/SpotifyWPF/publish/setup.exe?raw=true'
 
 steps:
 - powershell: |   
     [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
     $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
     $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
-  displayName: 'Version Package Manifest'
+  displayName: 'Prepare Package Manifest'
 
+- powershell: |
+    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
+    $doc = [System.Xml.Linq.XDocument]::Load(
+      "$(Build.SourcesDirectory)/SpotifyWPF.MSIX/Package.appinstaller")
+    $version = "$(major).$(minor).$(build).$(revision)"
+    $doc.Root.Attribute("Version").Value = $version;
+    $doc.Root.Attribute("Uri").Value = $publishUrl;
+    $xName =
+      [System.Xml.Linq.XName]
+        "{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage"
+    $doc.Root.Element($xName).Attribute("Version").Value = $version;
+    $doc.Save("$(Build.ArtifactStagingDirectory)/SpotifyWPF.appinstaller")
+  displayName: 'Prepare .appinstaller'
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
@@ -41,3 +55,8 @@ steps:
      /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=false'
   displayName: 'Package the App'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
