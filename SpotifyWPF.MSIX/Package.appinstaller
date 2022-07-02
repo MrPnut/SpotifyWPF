@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AppInstaller Uri="{AppInstallerUri}"
+<AppInstaller Uri="https://mrpnut.github.io/SpotifyWPF/Package.appinstaller"
               Version="{Version}"
               xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 
-  <MainBundle Name="{Name}"
+  <MainBundle Name="FooTestingWhat"
               Version="{Version}"
               Publisher="{Publisher}"
               Uri="{MainPackageUri}"/>
