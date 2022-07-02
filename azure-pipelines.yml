@@ -55,7 +55,7 @@ steps:
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
     msbuildArguments: '/p:OutputPath=NonPackagedApp
-     /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=false'
+     /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=true'
   displayName: 'Package the App'
 
 - task: PublishBuildArtifacts@1
