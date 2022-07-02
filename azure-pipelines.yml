@@ -54,13 +54,8 @@ steps:
     restoreNugetPackages: true
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)"                  
-                  /p:AppxBundle=Never 
-                  /p:UapAppxPackageBuildMode=SideLoadOnly 
-                  /p:AppxPackageSigningEnabled=true
-                  /p:PackageCertificateThumbprint="" 
-                  /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'                  
+    msbuildArguments: '/p:OutputPath=NonPackagedApp
+     /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=false'
   displayName: 'Package the App'
 
 - task: PublishBuildArtifacts@1
