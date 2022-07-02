@@ -42,14 +42,25 @@ steps:
     restoreSolution: '**/*.sln'
     feedsToUse: 'select'
 
+- task: DownloadSecureFile@1
+  name: signingCert
+  displayName: 'Download Certificate'
+  inputs:
+    secureFile: 'SpotifyWPF.MSIX_TemporaryKey.pfx'
+
 - task: MSBuild@1
   inputs:
     solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
     restoreNugetPackages: true
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
-    msbuildArguments: '/p:OutputPath=NonPackagedApp
-     /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=false'
+    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" 
+                  /p:AppxPackageDir="$(appxPackageDir)" 
+                  /p:AppxBundle=Never 
+                  p:UapAppxPackageBuildMode=SideLoadOnly 
+                  /p:AppxPackageSigningEnabled=true
+                  /p:PackageCertificateThumbprint="" 
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
   displayName: 'Package the App'
 
 - task: PublishBuildArtifacts@1
