@@ -54,21 +54,13 @@ steps:
     restoreNugetPackages: true
     platform: $(buildPlatform)
     configuration: $(buildConfiguration)     
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" 
-                  /p:AppxPackageDir="$(appxPackageDir)" 
+    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)"                   
                   /p:AppxBundle=Never 
                   p:UapAppxPackageBuildMode=SideLoadOnly 
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
   displayName: 'Package the App'
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
