@@ -5,7 +5,7 @@
 
   <MainBundle Name="SpotifyWPF.MSIX"
               Version="{Version}"
-              Publisher="ncsoftworks.com"
+              Publisher="CN=ncsoftworks.com"
               Uri="https://mrpnut.github.io/SpotifyWPF/SpotifyWPF.msix"/>
 
   <UpdateSettings>
