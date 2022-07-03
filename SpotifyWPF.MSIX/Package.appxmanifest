@@ -8,12 +8,12 @@
 
   <Identity
     Name="779637e0-8d50-400b-8dc3-136b1ab8a5be"
-    Publisher="CN=Nick"
+    Publisher="CN=ncsoftworks.com"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>SpotifyWPF.MSIX</DisplayName>
-    <PublisherDisplayName>Nick</PublisherDisplayName>
+    <PublisherDisplayName>ncsoftworks.com</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
