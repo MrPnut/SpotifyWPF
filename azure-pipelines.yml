@@ -32,7 +32,7 @@ steps:
     $version = "$(major).$(minor).$(build).$(revision)"
     $doc.Root.Attribute("Version").Value = $version;    
     $xName =
-      [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2017/2}MainBundle");
+      [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2017/2}MainPackage");
     $doc.Root.Element($xName).Attribute("Version").Value = $version;
     $doc.Save("$(Build.ArtifactStagingDirectory)/Package.appinstaller")
   displayName: 'Prepare .appinstaller'
