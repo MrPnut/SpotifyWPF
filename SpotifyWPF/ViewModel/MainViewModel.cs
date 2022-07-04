@@ -41,9 +41,9 @@ namespace SpotifyWPF.ViewModel
                     MenuItems = new ObservableCollection<MenuItemViewModel>
                     {
                         new MenuItemViewModel("Search",
-                            new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)) {IsChecked = true},
-                        new MenuItemViewModel("Playlists",
                             new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)),
+                        new MenuItemViewModel("Playlists",
+                            new RelayCommand<MenuItemViewModel>(SwitchViewFromMenuItem)) {IsChecked = true},
                     }
                 }
             };
@@ -64,7 +64,7 @@ namespace SpotifyWPF.ViewModel
 
         private void LoginSuccessful(object o)
         {
-            CurrentPage = _searchPageViewModel;
+            CurrentPage = _playlistsPageViewModel;
         }
 
         private void SwitchViewFromMenuItem(MenuItemViewModel menuItem)
