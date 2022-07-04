@@ -70,6 +70,7 @@ stages:
         publishLocation: 'Container'
 
 - stage: Deploy
+  environment: Github Releases
   jobs:
   - job: Deploy
     steps:
