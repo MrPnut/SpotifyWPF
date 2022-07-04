@@ -18,48 +18,53 @@ variables:
   build: 0
   revision: $[counter('rev', 0)]
   
-steps:
-- powershell: |   
-    [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
-    $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
-    $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
-  displayName: 'Prepare Package Manifest'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - powershell: |   
+      [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
+      $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
+      $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
+      displayName: 'Prepare Package Manifest'
 
-- powershell: |
-    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
-    $doc = [System.Xml.Linq.XDocument]::Load(
-      "$(Build.SourcesDirectory)/SpotifyWPF.MSIX/Package.appinstaller")
-    $version = "$(major).$(minor).$(build).$(revision)"
-    $doc.Root.Attribute("Version").Value = $version;    
-    $xName =
-      [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage");
-    $doc.Root.Element($xName).Attribute("Version").Value = $version;
-    $doc.Save("$(Build.ArtifactStagingDirectory)/Package.appinstaller")
-  displayName: 'Prepare .appinstaller'
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
+    - powershell: |
+        [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
+        $doc = [System.Xml.Linq.XDocument]::Load(
+          "$(Build.SourcesDirectory)/SpotifyWPF.MSIX/Package.appinstaller")
+        $version = "$(major).$(minor).$(build).$(revision)"
+        $doc.Root.Attribute("Version").Value = $version;    
+        $xName =
+          [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage");
+        $doc.Root.Element($xName).Attribute("Version").Value = $version;
+        $doc.Save("$(Build.ArtifactStagingDirectory)/Package.appinstaller")
+      displayName: 'Prepare .appinstaller'
 
-- task: DownloadSecureFile@1
-  name: signingCert
-  displayName: 'Download Certificate'
-  inputs:
-    secureFile: 'SpotifyWPF.MSIX_TemporaryKey.pfx'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
 
-- task: MSBuild@1
-  inputs:
-    solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
-    restoreNugetPackages: true
-    platform: $(buildPlatform)
-    configuration: $(buildConfiguration)     
-    msbuildArguments: '/p:OutputPath=NonPackagedApp
-     /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(certificatePassword)"'
-  displayName: 'Package the App'
+    - task: DownloadSecureFile@1
+      name: signingCert
+      displayName: 'Download Certificate'
+      inputs:
+        secureFile: 'SpotifyWPF.MSIX_TemporaryKey.pfx'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    - task: MSBuild@1
+      inputs:
+        solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
+        restoreNugetPackages: true
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)     
+        msbuildArguments: '/p:OutputPath=NonPackagedApp
+        /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(certificatePassword)"'
+      displayName: 'Package the App'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
