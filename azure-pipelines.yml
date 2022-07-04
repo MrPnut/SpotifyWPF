@@ -69,9 +69,12 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-- stage: Deploy
-  environment: Github Releases
+- stage: Deploy  
   jobs:
-  - job: Deploy
-    steps:
-    - bash: echo "Deploy"
+  - deployment: Deploy
+    environment: Github Releases
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - bash: echo "Deploy"
