@@ -69,8 +69,8 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-stage: Deploy
-jobs:
-- job: Deploy
-  steps:
-  - bash: echo "Deploy"
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - bash: echo "Deploy"
