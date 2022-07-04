@@ -24,9 +24,9 @@ stages:
   - job: Build
     steps:
     - powershell: |   
-      [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
-      $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
-      $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
+        [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
+        $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
+        $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
       displayName: 'Prepare Package Manifest'
 
     - powershell: |
