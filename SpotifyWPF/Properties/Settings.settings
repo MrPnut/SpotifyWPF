@@ -5,8 +5,8 @@
     <Setting Name="SpotifyClientId" Type="System.String" Scope="Application">
       <Value Profile="(Default)">137da97fe5de4e8c839d69d41c637364</Value>
     </Setting>
-    <Setting Name="SpotifyRedirectUri" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost:4002</Value>
+    <Setting Name="SpotifyRedirectPort" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">4002</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,24 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using SpotifyWPF.Service;
+// ReSharper disable AsyncVoidLambda
 
 namespace SpotifyWPF.ViewModel.Page
 {
     public class LoginPageViewModel : ViewModelBase
     {
-        private readonly ISpotify _spotify;
         public RelayCommand SpotifyLoginCommand { get; private set; }
 
         public LoginPageViewModel(ISpotify spotify)
         {
-            _spotify = spotify;
-
-            SpotifyLoginCommand = new RelayCommand(Login);
-        }
-
-        public void Login()
-        {
-            _spotify.Login(OnSuccess);
+            SpotifyLoginCommand = new RelayCommand(async () => { await spotify.LoginAsync(OnSuccess); });
         }
 
         private void OnSuccess()

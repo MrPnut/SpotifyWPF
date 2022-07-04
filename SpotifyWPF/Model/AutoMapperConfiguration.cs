@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web;
 
 namespace SpotifyWPF.Model
 {
@@ -9,7 +9,8 @@ namespace SpotifyWPF.Model
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PlaylistTrack, Track>();
+                cfg.CreateMap<PlaylistTrack<IPlayableItem>, Track>()
+                    .ForMember(dest => dest.TrackName, act => act.MapFrom(src => src.Track.ToString()));
             });
 
             config.AssertConfigurationIsValid();

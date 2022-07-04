@@ -5,7 +5,7 @@ using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Nito.AsyncEx;
-using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web;
 using SpotifyWPF.View.Extension;
 
 namespace SpotifyWPF.ViewModel
@@ -68,7 +68,7 @@ namespace SpotifyWPF.ViewModel
         /// <summary>
         ///     The total items in the results set (includes not fetched/displayed)
         /// </summary>
-        public int Total { get; private set; }
+        public int? Total { get; private set; }
 
         public bool Loading
         {
@@ -111,7 +111,7 @@ namespace SpotifyWPF.ViewModel
         /// <param name="query"></param>
         /// <param name="paging"></param>
         /// <returns></returns>
-        public async Task InitializeAsync(string query, Paging<T> paging)
+        public async Task InitializeAsync(string query, Paging<T, SearchResponse> paging)
         {
             using (await _mutex.LockAsync())
             {
@@ -130,7 +130,7 @@ namespace SpotifyWPF.ViewModel
         /// </summary>
         /// <param name="paging"></param>
         /// <returns></returns>
-        private async Task LoadPageAsync(Paging<T> paging)
+        private async Task LoadPageAsync(Paging<T, SearchResponse> paging)
         {
             // ReSharper disable once PossibleNullReferenceException
             await Application.Current.Dispatcher?.BeginInvoke((Action) (() =>
@@ -167,7 +167,7 @@ namespace SpotifyWPF.ViewModel
         ///     Subclass specific implementation to retrieve the next page
         /// </summary>
         /// <returns></returns>
-        private protected abstract Task<Paging<T>> FetchPageInternalAsync();
+        private protected abstract Task<Paging<T, SearchResponse>> FetchPageInternalAsync();
 
         /// <summary>
         ///     When a new page has been loaded

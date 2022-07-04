@@ -7,12 +7,13 @@ using System.Windows;
 using AutoMapper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web;
 using SpotifyWPF.Model;
 using SpotifyWPF.Service;
 using SpotifyWPF.Service.MessageBoxes;
 using MessageBoxButton = SpotifyWPF.Service.MessageBoxes.MessageBoxButton;
 using MessageBoxResult = SpotifyWPF.Service.MessageBoxes.MessageBoxResult;
+// ReSharper disable AsyncVoidLambda
 
 namespace SpotifyWPF.ViewModel.Page
 {
@@ -78,7 +79,7 @@ namespace SpotifyWPF.ViewModel.Page
 
         public async Task DeletePlaylistsAsync(IList items)
         {
-            var playlists = items.Cast<SimplePlaylist>();
+            var playlists = items.Cast<SimplePlaylist>().ToList();
 
             if (!playlists.Any()) return;
 
@@ -101,7 +102,7 @@ namespace SpotifyWPF.ViewModel.Page
 
                 Status = "Deleting playlist: " + playlist.Name;
 
-                await _spotify.Api.UnfollowPlaylistAsync(playlist.Owner.Id, playlist.Id);
+                await _spotify.Api.Follow.UnfollowPlaylist(playlist.Id);
 
                 await Application.Current.Dispatcher.BeginInvoke((Action) (() => { Playlists.Remove(playlist); }));
             }
@@ -117,28 +118,34 @@ namespace SpotifyWPF.ViewModel.Page
 
             await Application.Current.Dispatcher.BeginInvoke((Action) (() => { Playlists.Clear(); }));
 
-            var profile = await _spotify.GetPrivateProfileAsync();
-
-            var playlists = await _spotify.Api.GetUserPlaylistsAsync(profile.Id);
-            var received = 0;
+            Paging<SimplePlaylist> playlists = null;
 
             do
             {
-                received += playlists.Items.Count;
+                playlists = playlists == null
+                    ? await _spotify.Api.Playlists.CurrentUsers()
+                    : await _spotify.Api.NextPage(playlists);
 
-                await Application.Current.Dispatcher.BeginInvoke((Action) (() => { AddPlaylists(playlists); }));
+                var playlistsToAdd = playlists;
 
-                if (received < playlists.Total)
-                    playlists = await _spotify.Api.GetUserPlaylistsAsync(profile.Id, 20, received);
-            } while (received < playlists.Total);
+                await Application.Current.Dispatcher.BeginInvoke((Action) (() => { AddPlaylists(playlistsToAdd); }));
 
+            } while (!string.IsNullOrWhiteSpace(playlists.Next));
 
             Status = "Ready";
         }
 
-        private void AddPlaylists(Paging<SimplePlaylist> playlists)
+        private void AddPlaylists(IPaginatable<SimplePlaylist> playlists)
         {
-            foreach (var playlist in playlists.Items) Playlists.Add(playlist);
+            if (playlists.Items == null)
+            {
+                return;
+            }
+
+            foreach (var playlist in playlists.Items)
+            {
+                Playlists.Add(playlist);
+            }
         }
 
         public async Task LoadTracksAsync(SimplePlaylist playlist)
@@ -152,9 +159,14 @@ namespace SpotifyWPF.ViewModel.Page
 
             do
             {
-                received += tracks.Items.Count;
+                if (tracks.Items != null)
+                {
+                    received += tracks.Items.Count;
+                }
 
-                await Application.Current.Dispatcher.BeginInvoke((Action) (() => { AddTracks(tracks); }));
+                var tracksToLoad = tracks;
+
+                await Application.Current.Dispatcher.BeginInvoke((Action) (() => { AddTracks(tracksToLoad); }));
 
                 if (received < tracks.Total) tracks = await GetPlaylistTracksAsync(playlist.Id, received);
             } while (received < tracks.Total);
@@ -162,17 +174,28 @@ namespace SpotifyWPF.ViewModel.Page
             Status = "Ready";
         }
 
-        private async Task<Paging<PlaylistTrack>> GetPlaylistTracksAsync(string playlistId, int offset)
+        private async Task<Paging<PlaylistTrack<IPlayableItem>>> GetPlaylistTracksAsync(string playlistId, int offset)
         {
-            // The warning is actually for a different method than the one used
-#pragma warning disable CS0618 // Type or member is obsolete
-            return await _spotify.Api.GetPlaylistTracksAsync(playlistId, "", 100, offset);
-#pragma warning restore CS0618 // Type or member is obsolete
+            var req = new PlaylistGetItemsRequest()
+            {
+                Offset = offset,
+                Limit = 100
+            };
+
+            return await _spotify.Api.Playlists.GetItems(playlistId, req);
         }
 
-        private void AddTracks(Paging<PlaylistTrack> tracks)
+        private void AddTracks(IPaginatable<PlaylistTrack<IPlayableItem>> tracks)
         {
-            foreach (var track in tracks.Items) Tracks.Add(_mapper.Map<Track>(track));
+            if (tracks.Items == null)
+            {
+                return;
+            }
+
+            foreach (var track in tracks.Items)
+            {
+                Tracks.Add(_mapper.Map<Track>(track));
+            }
         }
     }
 }

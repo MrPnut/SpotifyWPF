@@ -4,6 +4,6 @@
     {
         public string SpotifyClientId => Properties.Settings.Default.SpotifyClientId;
 
-        public string SpotifyRedirectUri => Properties.Settings.Default.SpotifyRedirectUri;
+        public string SpotifyRedirectPort => Properties.Settings.Default.SpotifyRedirectPort;
     }
 }

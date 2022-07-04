@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using SpotifyAPI.Web.Enums;
+using SpotifyAPI.Web;
 using SpotifyWPF.Service;
 using SpotifyWPF.ViewModel.Component;
+// ReSharper disable AsyncVoidLambda
 
 namespace SpotifyWPF.ViewModel.Page
 {
@@ -172,7 +173,7 @@ namespace SpotifyWPF.ViewModel.Page
         {
             Status = "Searching...";
 
-            var searchItem = await _spotify.Api.SearchItemsAsync(SearchTerms, SearchType.All);
+            var searchItem = await _spotify.Api.Search.Item(new SearchRequest(SearchRequest.Types.All, SearchTerms));
 
             await TracksDataGridViewModel.InitializeAsync(SearchTerms, searchItem.Tracks);
             await ArtistsDataGridViewModel.InitializeAsync(SearchTerms, searchItem.Artists);
