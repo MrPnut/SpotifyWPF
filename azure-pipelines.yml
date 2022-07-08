@@ -79,5 +79,5 @@ stages:
       runOnce:
         deploy:
           steps:
-          - bash: git config --global user.name $(gitUser)
-          - bash: git config --global user.email $(gitEmail)
+          - bash: git config --global user.name "$(gitUser)"
+          - bash: git config --global user.email "$(gitEmail)"
