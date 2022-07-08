@@ -93,6 +93,7 @@ stages:
             workingDirectory: ./mrpnut.github.io
             displayName: git add
           - bash: git commit -m "Updating SpotifyWPF release"
+            workingDirectory: ./mrpnut.github.io
             displayName: git commit
           - bash: git push
             workingDirectory: ./mrpnut.github.io
