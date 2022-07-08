@@ -85,4 +85,4 @@ stages:
           - bash: git config --global user.name "$(gitUser)" || git config --global user.email "$(gitEmail)"
             displayName: Configure git user
           - bash: git clone git@github.com:MrPnut/mrpnut.github.io.git
-          - bash: ls          
+          - bash: ls '$(Agent.BuildDirectory)'         
