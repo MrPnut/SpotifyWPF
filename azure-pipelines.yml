@@ -17,6 +17,8 @@ variables:
   minor: 0
   build: 0
   revision: $[counter('rev', 0)]
+  gitUser: ''
+  gitEmail: ''
   
 stages:
 - stage: Build
@@ -77,4 +79,5 @@ stages:
       runOnce:
         deploy:
           steps:
-          - bash: echo "Deploy"
+          - bash: git config --global user.name $(gitUser)
+          - bash: git config --global user.email $(gitEmail)
