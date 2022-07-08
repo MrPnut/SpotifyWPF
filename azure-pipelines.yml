@@ -17,8 +17,6 @@ variables:
   minor: 0
   build: 0
   revision: $[counter('rev', 0)]
-  gitUser: ''
-  gitEmail: ''
   
 stages:
 - stage: Build
