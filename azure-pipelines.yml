@@ -83,7 +83,7 @@ stages:
               sshPassphrase: '$(sshPassphrase)'
               sshKeySecureFile: 'ncavallo33.visualstudio.com_priv.rsa'
             displayName: "Install SSH Key"
-          - bash: git config --global user.name "$(gitUser)" || git config --global user.email "$(gitEmail)"
+          - bash: git config --global user.name "$(gitUser)" && git config --global user.email "$(gitEmail)"
             displayName: Configure git user
           - bash: git clone git@github.com:MrPnut/mrpnut.github.io.git
             displayName: "git clone git@github.com/mrpnut.github.io.git"          
