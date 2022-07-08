@@ -87,7 +87,7 @@ stages:
             displayName: Configure git user
           - bash: git clone git@github.com:MrPnut/mrpnut.github.io.git
             displayName: "git clone git@github.com/mrpnut.github.io.git"          
-          - bash: cp '$(Agent.BuildDirectory)/drop/*' mrpnut.github.io/SpotifyWPF/
+          - bash: cp '$(Agent.BuildDirectory)/drop/*.*' mrpnut.github.io/SpotifyWPF/
             displayName: "Copying release contents to mrpnut.github.io repo"
           - bash: git add .
             workingDirectory: ./mrpnut.github.io
