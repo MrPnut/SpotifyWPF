@@ -86,9 +86,15 @@ stages:
           - bash: git config --global user.name "$(gitUser)" && git config --global user.email "$(gitEmail)"
             displayName: Configure git user
           - bash: git clone git@github.com:MrPnut/mrpnut.github.io.git
-            displayName: "git clone git@github.com/mrpnut.github.io.git"          
-          - bash: cp '$(Agent.BuildDirectory)/drop/*.*' mrpnut.github.io/SpotifyWPF/
-            displayName: "Copying release contents to mrpnut.github.io repo"
+            displayName: "git clone git@github.com/mrpnut.github.io.git"                    
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Agent.BuildDirectory)/drop'
+              Contents: '**'
+              TargetFolder: 'mrpnut.github.io/SpotifyWPF'
+              OverWrite: true
+              flattenFolders: true
+            displayName: "Copying release contents to mrpnut.github.io repo"          
           - bash: git add .
             workingDirectory: ./mrpnut.github.io
             displayName: git add
