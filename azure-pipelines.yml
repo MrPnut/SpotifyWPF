@@ -38,7 +38,7 @@ stages:
         $xName =
           [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage");
         $doc.Root.Element($xName).Attribute("Version").Value = $version;
-        $doc.Save("$(Build.ArtifactStagingDirectory)/Package.appinstaller")
+        $doc.Save("$(Build.ArtifactStagingDirectory)/SpotifyWPF.appinstaller")
       displayName: 'Prepare .appinstaller'
 
     - task: NuGetCommand@2
