@@ -18,9 +18,17 @@ for any asks I see that the official app doesn't support.
 
 # Installation
 
-Just run the [installer](https://github.com/MrPnut/SpotifyWPF/blob/master/SpotifyWPF/publish/setup.exe?raw=true).  It will complain
-because I don't have a proper signing certificate.
+If you want to use the [installer](https://mrpnut.github.io/SpotifyWPF/SpotifyWPF.appinstaller), then you need to install my self signed certificate to your computer's trusted certificate authorities.
+To do that easily, run the following in an Administrator PowerShell command prompt.  After that, run the installer.
+
+```
+PS > Invoke-WebRequest -Uri "https://mrpnut.github.io/SpotifyWPF/SpotifyWPF.cer" -OutFile "$env:temp\SpotifyWPF.cer"
+PS > Import-Certificate -FilePath "$env:temp\SpotifyWPF.cer" -CertStoreLocation Cert:\LocalMachine\CA
+```
+
+If you don't want to use the installer, you can pick one of the Github releases to extract to a folder and run.
+Using the installer will keep SpotifyWPF up to date.
 
 # Running
 
-After installation, you can just search for "SpotifyWPF" in your start menu.
+After installation, you can just search for "SpotifyWPF" in your start menu if you used the installer.
