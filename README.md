@@ -22,8 +22,7 @@ If you want to use the [installer](https://mrpnut.github.io/SpotifyWPF/SpotifyWP
 To do that easily, run the following in an Administrator PowerShell command prompt.  After that, run the installer.
 
 ```
-Invoke-WebRequest -Uri "https://mrpnut.github.io/SpotifyWPF/SpotifyWPF.cer" -OutFile "$env:temp\SpotifyWPF.cer"
-Import-Certificate -FilePath "$env:temp\SpotifyWPF.cer" -CertStoreLocation Cert:\LocalMachine\CA
+Invoke-WebRequest -Uri "https://mrpnut.github.io/SpotifyWPF/SpotifyWPF.cer" -OutFile "$env:temp\SpotifyWPF.cer"; Import-Certificate -FilePath "$env:temp\SpotifyWPF.cer" -CertStoreLocation Cert:\LocalMachine\Root
 ```
 
 If you don't want to use the installer, you can pick one of the Github releases to extract to a folder and run.
