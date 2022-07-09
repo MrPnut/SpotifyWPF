@@ -18,48 +18,89 @@ variables:
   build: 0
   revision: $[counter('rev', 0)]
   
-steps:
-- powershell: |   
-    [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
-    $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
-    $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
-  displayName: 'Prepare Package Manifest'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - powershell: |   
+        [xml]$manifest= get-content ".\SpotifyWPF.MSIX\Package.appxmanifest"
+        $manifest.Package.Identity.Version = "$(major).$(minor).$(build).$(revision)"    
+        $manifest.save("SpotifyWPF.MSIX/Package.appxmanifest")
+      displayName: 'Prepare Package Manifest'
 
-- powershell: |
-    [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
-    $doc = [System.Xml.Linq.XDocument]::Load(
-      "$(Build.SourcesDirectory)/SpotifyWPF.MSIX/Package.appinstaller")
-    $version = "$(major).$(minor).$(build).$(revision)"
-    $doc.Root.Attribute("Version").Value = $version;    
-    $xName =
-      [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2017/2}MainPackage");
-    $doc.Root.Element($xName).Attribute("Version").Value = $version;
-    $doc.Save("$(Build.ArtifactStagingDirectory)/Package.appinstaller")
-  displayName: 'Prepare .appinstaller'
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
+    - powershell: |
+        [Reflection.Assembly]::LoadWithPartialName("System.Xml.Linq")
+        $doc = [System.Xml.Linq.XDocument]::Load(
+          "$(Build.SourcesDirectory)/SpotifyWPF.MSIX/Package.appinstaller")
+        $version = "$(major).$(minor).$(build).$(revision)"
+        $doc.Root.Attribute("Version").Value = $version;    
+        $xName =
+          [System.Xml.Linq.XName]::Get("{http://schemas.microsoft.com/appx/appinstaller/2018}MainPackage");
+        $doc.Root.Element($xName).Attribute("Version").Value = $version;
+        $doc.Save("$(Build.ArtifactStagingDirectory)/SpotifyWPF.appinstaller")
+      displayName: 'Prepare .appinstaller'
 
-- task: DownloadSecureFile@1
-  name: signingCert
-  displayName: 'Download Certificate'
-  inputs:
-    secureFile: 'SpotifyWPF.MSIX_TemporaryKey.pfx'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
 
-- task: MSBuild@1
-  inputs:
-    solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
-    restoreNugetPackages: true
-    platform: $(buildPlatform)
-    configuration: $(buildConfiguration)     
-    msbuildArguments: '/p:OutputPath=NonPackagedApp
-     /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(certificatePassword)"'
-  displayName: 'Package the App'
+    - task: DownloadSecureFile@1
+      name: signingCert
+      displayName: 'Download Certificate'
+      inputs:
+        secureFile: 'SpotifyWPF.MSIX_TemporaryKey.pfx'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    - task: MSBuild@1
+      inputs:
+        solution: 'SpotifyWPF.MSIX/SpotifyWPF.MSIX.wapproj'
+        restoreNugetPackages: true
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)     
+        msbuildArguments: '/p:OutputPath=NonPackagedApp
+        /p:UapAppxPackageBuildMode=SideLoadOnly /p:AppxBundle=Never /p:AppxPackageOutput=$(Build.ArtifactStagingDirectory)\SpotifyWPF.msix /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint="" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(certificatePassword)"'
+      displayName: 'Package the App'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: Deploy  
+  jobs:
+  - deployment: Deploy
+    environment: Github Releases
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: InstallSSHKey@0
+            inputs:
+              knownHostsEntry: 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+              sshPassphrase: '$(sshPassphrase)'
+              sshKeySecureFile: 'ncavallo33.visualstudio.com_priv.rsa'
+            displayName: "Install SSH Key"
+          - bash: git config --global user.name "$(gitUser)" && git config --global user.email "$(gitEmail)"
+            displayName: Configure git user
+          - bash: git clone git@github.com:MrPnut/mrpnut.github.io.git
+            displayName: "git clone git@github.com/mrpnut.github.io.git"                    
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Agent.BuildDirectory)/drop'
+              Contents: '**'
+              TargetFolder: 'mrpnut.github.io/SpotifyWPF'
+              OverWrite: true
+              flattenFolders: true
+            displayName: "Copying release contents to mrpnut.github.io repo"          
+          - bash: git add .
+            workingDirectory: ./mrpnut.github.io
+            displayName: git add
+          - bash: git commit -m "Updating SpotifyWPF release"
+            workingDirectory: ./mrpnut.github.io
+            displayName: git commit
+          - bash: git push
+            workingDirectory: ./mrpnut.github.io
+            displayName: git push
