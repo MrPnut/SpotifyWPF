@@ -53,6 +53,7 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Created By" Binding="{Binding Owner.DisplayName}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="# Tracks" Binding="{Binding Tracks.Total}" IsReadOnly="True" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -62,6 +63,7 @@
                 <DataGrid x:Name="TracksDataGrid" ItemsSource="{Binding Tracks}" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding TrackName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Artist(s)" Binding="{Binding Artists}" IsReadOnly="True" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

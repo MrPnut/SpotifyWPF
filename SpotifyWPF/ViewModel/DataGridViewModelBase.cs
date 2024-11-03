@@ -154,7 +154,12 @@ namespace SpotifyWPF.ViewModel
             {
                 Loading = true;
 
-                if (Items.Count >= Total) return;
+                if (Items.Count >= Total)
+                {
+                    Loading = false;
+                    
+                    return;
+                }
 
                 var page = await FetchPageInternalAsync();
                 await LoadPageAsync(page);
