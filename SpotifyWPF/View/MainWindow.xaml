@@ -2,11 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:SpotifyWPF.View"
         xmlns:vm="clr-namespace:SpotifyWPF.ViewModel"
         xmlns:page="clr-namespace:SpotifyWPF.View.Page"
         xmlns:vm1="clr-namespace:SpotifyWPF.ViewModel.Page"
+        xmlns:play="clr-namespace:SpotifyWPF"
         xmlns:component="clr-namespace:SpotifyWPF.ViewModel.Component"
         mc:Ignorable="d"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
@@ -40,6 +42,8 @@
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
         </Menu>
+        
+        <wv2:WebView2 DockPanel.Dock="Bottom" Height="100" Source="http://www.google.com"></wv2:WebView2>
         
         <ContentControl DockPanel.Dock="Bottom" x:Name="Pages" Content="{Binding CurrentPage}"/>
     </DockPanel>
